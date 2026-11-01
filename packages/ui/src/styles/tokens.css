@@ -1,0 +1,210 @@
+:root {
+  /* Platinum — warm grey body, Braun-style. Ordered light → dark. */
+  --platinum-0: #faf9f6;
+  --platinum-50: #f3f1ec;
+  --platinum-100: #eae7e0;
+  --platinum-200: #dedad1;
+  --platinum-300: #cfcac0;
+  --platinum-400: #b5afa3;
+  --platinum-500: #918b7f;
+  --platinum-600: #6c675e;
+  --platinum-700: #4a4741;
+  --platinum-800: #2e2c29;
+  --platinum-900: #1b1a18;
+
+  /* Signal — the only two colors allowed on the body. */
+  --signal-orange: #e5521a;
+  --signal-orange-press: #c2410c;
+  --signal-orange-tint: #f6d8c8;
+  --signal-green: #2e8f57;
+  --signal-green-tint: #cfe6d6;
+
+  /* Screen — live displays only. Each hue has one job. */
+  --screen-bg: #151513;
+  --screen-grid: #2b2a27;
+  --screen-ink: #eeebe4;
+  --screen-dim: #8c877d;
+  --screen-blue: #5ea2f2; /* the strategy line */
+  --screen-yellow: #f4c744; /* the benchmark line */
+  --screen-green: #4fcf88; /* up / live / filled */
+  --screen-red: #ff5b4f; /* down / drawdown */
+  --screen-orange: #ff6a2b; /* cursor / selected */
+
+  /* Semantic aliases */
+  --surface-body: var(--platinum-200);
+  --surface-panel: var(--platinum-100);
+  --surface-raised: var(--platinum-50);
+  --surface-paper: var(--platinum-0);
+  --surface-inset: var(--platinum-300);
+  --surface-screen: var(--screen-bg);
+  --surface-ink: var(--platinum-900);
+
+  --text-1: var(--platinum-900);
+  --text-2: var(--platinum-700);
+  --text-3: var(--platinum-500);
+  --text-label: var(--platinum-600);
+  --text-on-ink: var(--platinum-0);
+  --text-on-signal: #ffffff;
+
+  --border-hair: var(--platinum-300);
+  --border-1: var(--platinum-400);
+  --border-ink: var(--platinum-900);
+
+  --accent: var(--signal-orange);
+  --accent-press: var(--signal-orange-press);
+  --accent-tint: var(--signal-orange-tint);
+  --positive: var(--signal-green);
+  --positive-tint: var(--signal-green-tint);
+  --negative: #c2382c;
+  --negative-tint: #f2d3ce;
+  --focus-ring: var(--signal-orange);
+
+  /* Strategy block kinds */
+  --block-when: var(--platinum-900);
+  --block-if: var(--platinum-50);
+  --block-then: var(--signal-orange);
+  --block-until: var(--platinum-400);
+}
+
+:root {
+  --font-sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-numeric: var(--font-sans); /* always with tabular-nums; no monospace */
+
+  --fw-light: 300; /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium: 500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700; /* @kind font */
+
+  --fs-label: 11px;
+  --fs-caption: 12px;
+  --fs-body-s: 13px;
+  --fs-body: 15px;
+  --fs-lead: 18px;
+  --fs-h3: 22px;
+  --fs-h2: 28px;
+  --fs-h1: 40px;
+  --fs-display: 64px;
+  --fs-screen-num: 36px;
+
+  --lh-tight: 1.1; /* @kind font */
+  --lh-snug: 1.25; /* @kind font */
+  --lh-body: 1.5; /* @kind font */
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.01em;
+  --tracking-label: 0.01em;
+
+  /* Semantic text styles (font shorthand) */
+  --type-display: var(--fw-light) var(--fs-display)/var(--lh-tight) var(--font-display);
+  --type-h1: var(--fw-light) var(--fs-h1)/var(--lh-tight) var(--font-display);
+  --type-h2: var(--fw-regular) var(--fs-h2)/var(--lh-snug) var(--font-display);
+  --type-h3: var(--fw-medium) var(--fs-h3)/var(--lh-snug) var(--font-sans);
+  --type-body: var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-sans);
+  --type-body-s: var(--fw-regular) var(--fs-body-s)/var(--lh-body) var(--font-sans);
+  --type-label: var(--fw-medium) var(--fs-label)/1.2 var(--font-sans);
+  --type-button: var(--fw-medium) var(--fs-body-s)/1 var(--font-sans);
+}
+
+:root {
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --control-h-s: 24px;
+  --control-h-m: 32px;
+  --control-h-l: 44px;
+  --label-gap: 6px; /* control → its label underneath */
+  --titlebar-h: 22px;
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --radius-4: 10px;
+  --radius-round: 999px;
+  --radius-control: var(--radius-3);
+  --radius-window: var(--radius-1);
+  --radius-screen: var(--radius-2);
+  --border-w: 1px;
+  --border-w-default: 3px;
+}
+
+:root {
+  /* Physical controls: lit from above. */
+  --shadow-control:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(27, 26, 24, 0.18);
+  --shadow-control-press: inset 0 1px 2px rgba(27, 26, 24, 0.22);
+  --shadow-inset: inset 0 1px 2px rgba(27, 26, 24, 0.18);
+  --shadow-screen: inset 0 0 0 1px #000, inset 0 2px 8px rgba(0, 0, 0, 0.7);
+  /* Screen bezel: the recessed well a display sits in. */
+  --shadow-bezel:
+    inset 0 1px 2px rgba(27, 26, 24, 0.38), inset 0 -1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.8);
+  /* Backlit LCD: faint pixel grid, glass highlight. No glow. */
+  --screen-pixels: radial-gradient(circle, rgba(255, 255, 255, 0.045) 0.6px, transparent 0.9px) 0 0/3px 3px; /* @kind other */
+  --screen-glass: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0) 38%
+  ); /* @kind other */
+  /* Windows: 1-bit hard drop. */
+  --shadow-window: 2px 2px 0 var(--platinum-900);
+  --shadow-float: 0 1px 0 rgba(27, 26, 24, 0.1), 0 8px 24px rgba(27, 26, 24, 0.16);
+  --stripes-titlebar: repeating-linear-gradient(to bottom, var(--platinum-900) 0 1px, transparent 1px 3px);
+  --dots-grille: radial-gradient(circle, var(--platinum-400) 1px, transparent 1.2px) 0 0/6px 6px;
+
+  /* Liquid glass — sparingly: only things floating over content (menu bar, toast, tooltip). Never cards, never screens. */
+  --glass-light: rgba(250, 249, 246, 0.58);
+  --glass-dark: rgba(27, 26, 24, 0.62);
+  --glass-blur: blur(20px) saturate(1.8); /* @kind other */
+  --glass-edge:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 1px 0 rgba(27, 26, 24, 0.12); /* @kind shadow */
+  --glass-edge-dark:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(27, 26, 24, 0.22); /* @kind shadow */
+
+  --ease-detent: cubic-bezier(0.3, 0.7, 0.2, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1); /* @kind other */
+  --dur-press: 70ms; /* @kind other */
+  --dur-quick: 140ms; /* @kind other */
+  --dur-move: 240ms; /* @kind other */
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-1);
+  background: var(--surface-body);
+  font-feature-settings: 'tnum' 0;
+}
+.num,
+[data-num] {
+  font-variant-numeric: tabular-nums;
+}
+a {
+  color: var(--text-1);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--accent);
+}
+::selection {
+  background: var(--accent-tint);
+}
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
