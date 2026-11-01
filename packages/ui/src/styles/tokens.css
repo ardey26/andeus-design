@@ -41,8 +41,8 @@
 
   --text-1: var(--platinum-900);
   --text-2: var(--platinum-700);
-  --text-3: var(--platinum-500);
-  --text-label: var(--platinum-600);
+  --text-3: #645F57; /* AA (4.5:1) on every surface, incl. --surface-body */
+  --text-label: var(--text-3);
   --text-on-ink: var(--platinum-0);
   --text-on-signal: #ffffff;
 
