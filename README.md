@@ -1,28 +1,58 @@
 # Andeus Design
 
-React component library with a hardware-instrument look (Braun / Teenage Engineering / Classic Mac).
+**A React component library with a hardware-instrument look.** Warm platinum casings, physical keys, black-glass screens and one signal orange, in the spirit of Dieter Rams' Braun, Teenage Engineering and the classic Mac.
 
-```
-packages/ui      @andeus/ui: 28 components, tokens.css, Archivo fonts
-apps/site        docs + showcase + strategy-app kit (Vite multi-page, static)
-```
+[![Andeus Design](apps/site/public/og.png)](https://andeus.design)
 
-## Commands
+**[Showcase](https://andeus.design/showcase/)** · **[Docs](https://andeus.design/docs/)** · **[Components](https://andeus.design/docs/button/)**
+
+## Features
+
+- **28 React components:** Button, Input, Select, MultiSelect, Checkbox, Radio, Switch, Slider, Segmented, Tabs, Window, Dialog, Card, Screen, Toast, Tooltip, Badge, Tag, Chart, Metric, Block, MusicPlayer and more.
+- **Design tokens as CSS custom properties.** Components read semantic aliases only, so you retheme by overriding a few variables.
+- **One typeface** (Archivo, self-hosted) and a 1-bit pixel icon set on a 24px grid.
+- **Readable by default:** every text token meets WCAG AA contrast on every surface.
+- **No runtime dependencies** beyond React 18+.
+
+## Install
 
 ```bash
-pnpm install
-pnpm dev        # site at http://localhost:5173/showcase/  (/docs/, /kits/strategy-app/)
-pnpm build      # builds packages/ui/dist then apps/site/dist
+npm install @andeus/ui
 ```
-
-## Using the library
 
 ```jsx
 import '@andeus/ui/styles.css'; // once, at the app root
 import { Button, Switch } from '@andeus/ui';
+
+export function RunControls() {
+  const [live, setLive] = useState(false);
+  return (
+    <>
+      <Switch label="Live" checked={live} onChange={setLive} />
+      <Button variant="primary" disabled={!live}>Run</Button>
+    </>
+  );
+}
 ```
 
-## Deploy
+## Theming
 
-`apps/site/dist` is a static site. Netlify / Cloudflare Pages / Vercel:
-build command `pnpm build`, output `apps/site/dist`.
+```css
+:root {
+  --accent: var(--screen-blue);
+  --surface-body: var(--platinum-100);
+}
+```
+
+## Repository
+
+```
+packages/ui      @andeus/ui: components, tokens, fonts
+apps/site        showcase + docs (Vite, pre-rendered static site)
+```
+
+```bash
+pnpm install
+pnpm dev        # http://localhost:5173/showcase/
+pnpm build      # library + pre-rendered site in apps/site/dist
+```
