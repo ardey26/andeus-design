@@ -1,0 +1,16 @@
+{
+  "name": "andeus-design",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.11.0",
+  "scripts": {
+    "dev": "pnpm --filter @andeus/site dev",
+    "build": "pnpm --filter @andeus/ui build && pnpm --filter @andeus/site build",
+    "build:ui": "pnpm --filter @andeus/ui build",
+    "preview": "pnpm --filter @andeus/site preview",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
