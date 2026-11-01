@@ -1,0 +1,191 @@
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--surface-body);
+}
+a {
+  color: var(--text-1);
+}
+a:hover {
+  color: var(--accent);
+}
+.sc-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 48px);
+  padding-right: clamp(20px, 4vw, 48px);
+  box-sizing: border-box;
+}
+.sc-nav {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-1);
+}
+.sc-nav:hover {
+  color: var(--accent);
+}
+.sc-plan {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--border-ink);
+  border-left: 1px solid var(--border-ink);
+}
+.sc-tile {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  min-height: 120px;
+  border-right: 1px solid var(--border-ink);
+  border-bottom: 1px solid var(--border-ink);
+  background: var(--surface-raised);
+  transition: background var(--dur-quick) var(--ease-detent);
+}
+.sc-tile:hover {
+  background: var(--surface-paper);
+}
+.sc-tile:active {
+  background: var(--platinum-100);
+}
+.sc-tile:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+.sc-tile-ink {
+  background: var(--surface-ink);
+  color: var(--text-on-ink);
+}
+.sc-tile-ink:hover {
+  background: var(--platinum-800);
+}
+.sc-room {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 56px) 0 clamp(80px, 10vw, 160px);
+  background: var(--surface-body);
+}
+.sc-room:nth-of-type(even) {
+  background: var(--platinum-100);
+}
+.sc-giant {
+  font: 200 clamp(96px, 22vw, 380px)/0.8 var(--font-display);
+  letter-spacing: -0.06em;
+  color: var(--platinum-400);
+  white-space: nowrap;
+  padding: 0 1.5vw;
+  user-select: none;
+}
+.sc-room:nth-of-type(even) .sc-giant {
+  color: var(--platinum-300);
+}
+.sc-exhibit {
+  position: relative;
+  z-index: 2;
+  width: min(1100px, calc(100vw - 48px));
+  margin: clamp(-120px, -8vw, -40px) auto 0;
+  zoom: 1.3;
+}
+@media (max-width: 1400px) {
+  .sc-exhibit {
+    zoom: 1.15;
+    width: min(1000px, calc((100vw - 40px) / 1.15));
+  }
+}
+@media (max-width: 1000px) {
+  .sc-exhibit {
+    zoom: 1;
+    width: calc(100vw - 32px);
+  }
+  .hw-cols {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+.sc-part {
+  font: 500 12px/1 var(--font-sans);
+  padding: 5px 8px;
+  border: 1px solid var(--border-ink);
+  border-radius: 2px;
+  background: var(--surface-raised);
+}
+.sc-parts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--border-ink);
+  border-left: 1px solid var(--border-ink);
+}
+.sc-partcard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-right: 1px solid var(--border-ink);
+  border-bottom: 1px solid var(--border-ink);
+  background: var(--surface-raised);
+  min-height: 76px;
+}
+.sc-roomno {
+  all: unset;
+  cursor: pointer;
+  font: 600 11px/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  padding: 4px 5px;
+  border-radius: 2px;
+  background: var(--platinum-200);
+  color: var(--text-1);
+}
+.sc-roomno:hover {
+  background: var(--signal-orange);
+  color: var(--text-on-signal);
+}
+.hw-key {
+  transition:
+    transform 60ms var(--ease-detent),
+    box-shadow 60ms var(--ease-detent);
+}
+.hw-key:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 0 var(--platinum-900) !important;
+}
+.hw-key:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sc-sticker {
+  box-shadow: 0 10px 24px -8px rgba(27, 26, 24, 0.4);
+  z-index: 3;
+}
+@media (max-width: 960px) {
+  .sc-hw {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .sc-room-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .sc-tag {
+    position: static;
+  }
+  #root section[data-screen-label='Hero'],
+  #kit > .sc-wrap:first-child {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+@media (max-width: 760px) {
+  .sc-device {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .sc-split,
+  .sc-tri,
+  .sc-mail {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
