@@ -35,6 +35,7 @@ a:hover {
   background: var(--platinum-100);
 }
 .sc-giant {
+  margin: 0;
   font: 200 clamp(96px, 22vw, 380px)/0.8 var(--font-display);
   letter-spacing: -0.06em;
   color: var(--platinum-400);

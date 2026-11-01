@@ -2,5 +2,13 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm build",
-  "outputDirectory": "apps/site/dist"
+  "outputDirectory": "apps/site/dist",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/showcase/",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": true
 }

@@ -224,7 +224,14 @@ function Table({ head, rows }) {
   );
 }
 
-const tokVal = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+// Resolve token values from the shipped token table (not the live DOM), so the
+// page renders the same at build time and in the browser.
+const TOK_MAP = Object.fromEntries(Object.values(DOCS_DATA.tok).flat());
+const tokVal = (n, depth = 0) => {
+  const v = TOK_MAP[n];
+  if (!v || depth > 8) return v || '';
+  return v.replace(/var\((--[\w-]+)\)/g, (_, ref) => tokVal(ref, depth + 1) || 'var(' + ref + ')');
+};
 
 const PHIL = {
   lead: 'How Andeus Design thinks. Every rule has a reason attached, so cases the components do not cover can still be decided.',

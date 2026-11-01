@@ -8,8 +8,14 @@ import * as NS from '@andeus/ui';
 
 const T = DOCS_DATA.tok;
 const PKG = '@andeus/ui';
-const DOCS_URL = 'https://andeus.design/docs';
-const base = () => DOCS_URL || location.origin + location.pathname;
+const SITE_URL = 'https://andeus.design';
+// Every docs page has a real, crawlable path. Philosophy is the docs index.
+export const docPath = (id) => (id === 'philosophy' ? '/docs/' : '/docs/' + id + '/');
+const docUrl = (id) => SITE_URL + docPath(id);
+export const routeFromPath = (path) => {
+  const m = /^\/docs\/([a-z0-9-]+)\/?$/.exec(path || '');
+  return m ? m[1] : 'philosophy';
+};
 const RULES = [
   'Use tokens (CSS custom properties) for every colour, space, radius and shadow. Never hard-code hex values.',
   'Sentence case everywhere, including buttons and labels. No all caps.',
@@ -25,7 +31,7 @@ const tokMd = (list) => list.map(([n, v]) => '- `' + n + '`: `' + v + '`').join(
 function compMd(c) {
   return [
     '# ' + c.name + ' — ' + PKG,
-    'Docs: ' + base() + '#/' + c.id,
+    'Docs: ' + docUrl(c.id),
     '',
     c.desc,
     '',
@@ -54,8 +60,8 @@ const PAGE_TOK = {
 };
 function pageMd(id) {
   const p = PAGES[id];
-  const head = ['# ' + p.title + ' — ' + PKG, 'Docs: ' + base() + '#/' + id, ''];
-  if (id === 'philosophy') return philMd() + '\n\nDocs: ' + base() + '#/philosophy';
+  const head = ['# ' + p.title + ' — ' + PKG, 'Docs: ' + docUrl(id), ''];
+  if (id === 'philosophy') return philMd() + '\n\nDocs: ' + docUrl('philosophy');
   if (id === 'installation')
     return head.concat([setupMd(), '', '## Rules', ...RULES.map((r) => '- ' + r)]).join('\n');
   if (id === 'icons')
@@ -83,7 +89,7 @@ function setupMd() {
 function allMd() {
   return [
     '# Andeus Design (' + PKG + ') — complete reference',
-    'Docs: ' + base(),
+    'Docs: ' + docUrl('philosophy'),
     '',
     'React 18+ component library. Controls are controlled (`value`/`checked` + `onChange`) or uncontrolled (`defaultValue`); slots are props that take React nodes (`toolbar`, `footer`, `actions`, `summary`). The philosophy comes first because it decides the cases the components do not cover.',
     '',
@@ -145,19 +151,62 @@ const NAV = [
 const FLAT = NAV.flatMap((s) => s.items);
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-function useRoute() {
-  const get = () => location.hash.replace(/^#\/?/, '').split('#')[0] || 'philosophy';
-  const [r, setR] = React.useState(get);
+function useRoute(initial) {
+  const [r, setR] = React.useState(initial || 'philosophy');
   React.useEffect(() => {
-    const f = () => {
-      setR(get());
+    // Old #/id links still work: move them onto the real path.
+    const legacy = /^#\/([a-z0-9-]+)/.exec(location.hash);
+    if (legacy) {
+      history.replaceState(null, '', docPath(legacy[1]));
+      setR(legacy[1]);
+    }
+    const onPop = () => setR(routeFromPath(location.pathname));
+    // Internal docs links navigate in place instead of reloading the page.
+    const onClick = (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest && e.target.closest('a[href^="/docs/"]');
+      if (!a || a.target) return;
+      e.preventDefault();
+      const next = routeFromPath(a.getAttribute('href'));
+      history.pushState(null, '', docPath(next));
+      setR(next);
       window.scrollTo(0, 0);
     };
-    window.addEventListener('hashchange', f);
-    return () => window.removeEventListener('hashchange', f);
+    window.addEventListener('popstate', onPop);
+    document.addEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      document.removeEventListener('click', onClick);
+    };
   }, []);
   return r;
 }
+
+const PAGE_DESC = {
+  philosophy:
+    'The rules behind Andeus Design, a React component library modelled on Braun, Teenage Engineering and the classic Mac.',
+  installation: 'Install @andeus/ui, import the stylesheet once, and start using the React components.',
+  theming:
+    'Retheme Andeus Design by overriding a few CSS custom properties. Components only read semantic tokens.',
+  color:
+    'The Andeus Design colour tokens: warm platinum greys, two signal colours, and screen hues with one job each.',
+  typography: 'Andeus Design typography: one typeface (Archivo), tabular numbers, and a small type scale.',
+  spacing: 'Spacing, radius and shadow tokens used by every Andeus Design component.',
+  icons:
+    'The Andeus Design icon set: 1-bit pixel icons on a 24px grid, available through the Icon component.',
+};
+
+export function docTitle(id) {
+  const comp = COMPS.find((c) => c.id === id);
+  const name = comp ? comp.name : (PAGES[id] || PAGES.philosophy).title;
+  return name + ' — Andeus Design React components';
+}
+export function docDescription(id) {
+  const comp = COMPS.find((c) => c.id === id);
+  if (comp) return comp.desc.replace(/`/g, '');
+  return PAGE_DESC[id] || PAGE_DESC.philosophy;
+}
+export const DOC_IDS = () => [...Object.keys(PAGES), ...COMPS.map((c) => c.id)];
 
 class DemoGuard extends React.Component {
   constructor(p) {
@@ -263,8 +312,8 @@ function useSidePill(id) {
   return [sideRef, pillRef];
 }
 
-function Docs() {
-  const route = useRoute();
+function Docs({ initialRoute }) {
+  const route = useRoute(initialRoute);
   const [q, setQ] = React.useState('');
   const [menu, setMenu] = React.useState(false);
   const comp = COMPS.find((c) => c.id === route);
@@ -285,7 +334,8 @@ function Docs() {
   })).filter((s) => s.items.length);
   React.useEffect(() => {
     setMenu(false);
-  }, [route]);
+    document.title = docTitle(id);
+  }, [route, id]);
   React.useEffect(() => {
     const k = (e) => {
       if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
@@ -317,7 +367,7 @@ function Docs() {
           ☰
         </button>
         <a
-          href="#/philosophy"
+          href="/docs/"
           style={{
             display: 'flex',
             alignItems: 'baseline',
@@ -326,7 +376,9 @@ function Docs() {
             color: 'var(--text-1)',
           }}
         >
-          <span style={{ font: '300 22px/1 var(--font-display)', letterSpacing: '-0.02em' }}>Andeus Design</span>
+          <span style={{ font: '300 22px/1 var(--font-display)', letterSpacing: '-0.02em' }}>
+            Andeus Design
+          </span>
           <span style={{ font: '500 12px/1 var(--font-sans)', color: 'var(--text-2)' }}>for React</span>
         </a>
         <Badge tone="ink">v0.1</Badge>
@@ -335,11 +387,11 @@ function Docs() {
           Copy all as Markdown
         </Button>
         <nav className="dc-toplinks">
-          <a href="#/philosophy">Philosophy</a>
-          <a href="#/installation">Install</a>
-          <a href="#/color">Foundations</a>
-          <a href="#/button">Components</a>
-          <a href="../showcase/index.html">Showroom</a>
+          <a href="/docs/">Philosophy</a>
+          <a href="/docs/installation/">Install</a>
+          <a href="/docs/color/">Foundations</a>
+          <a href="/docs/button/">Components</a>
+          <a href="/showcase/">Showroom</a>
         </nav>
       </header>
       <div className="dc-grid">
@@ -374,7 +426,7 @@ function Docs() {
                 {s.g}
               </div>
               {s.items.map(([k, t]) => (
-                <a key={k} href={'#/' + k} className={'dc-link' + (k === id ? ' on' : '')}>
+                <a key={k} href={docPath(k)} className={'dc-link' + (k === id ? ' on' : '')}>
                   {t}
                 </a>
               ))}
@@ -406,7 +458,7 @@ function Docs() {
             }}
           >
             {prev ? (
-              <a href={'#/' + prev[0]} className="dc-pn">
+              <a href={docPath(prev[0])} className="dc-pn">
                 <span>Previous</span>
                 <b>{prev[1]}</b>
               </a>
@@ -414,7 +466,7 @@ function Docs() {
               <span></span>
             )}
             {next ? (
-              <a href={'#/' + next[0]} className="dc-pn" style={{ textAlign: 'right' }}>
+              <a href={docPath(next[0])} className="dc-pn" style={{ textAlign: 'right' }}>
                 <span>Next</span>
                 <b>{next[1]}</b>
               </a>

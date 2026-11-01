@@ -169,6 +169,14 @@ const ALL = [
   'Chart',
   'Metric',
 ];
+const SR_ONLY = {
+  position: 'absolute',
+  width: 1,
+  height: 1,
+  overflow: 'hidden',
+  clip: 'rect(0 0 0 0)',
+  whiteSpace: 'nowrap',
+};
 const nn = (i) => String(i + 1).padStart(2, '0');
 const go = (id) => {
   const el = document.getElementById(id);
@@ -226,9 +234,13 @@ function Room({ r, i }) {
   const inner = C ? <C /> : null;
   return (
     <section id={r.id} className="sc-room" data-screen-label={nn(i) + ' ' + r.name}>
-      <div aria-hidden="true" className="sc-giant" style={{ textAlign: i % 2 ? 'right' : 'left' }}>
-        <span style={{ fontVariantNumeric: 'tabular-nums' }}>{nn(i)}</span> {r.name}
-      </div>
+      <h2 className="sc-giant" style={{ textAlign: i % 2 ? 'right' : 'left' }}>
+        <span aria-hidden="true" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          {nn(i)}
+        </span>{' '}
+        {r.name}
+        <span style={SR_ONLY}> — {r.kind}</span>
+      </h2>
       <div className="sc-exhibit">{inner}</div>
     </section>
   );

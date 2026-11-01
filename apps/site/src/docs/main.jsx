@@ -1,6 +1,10 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import './docs.css';
-import { Docs } from './Docs';
+import { Docs, routeFromPath } from './Docs';
 
-createRoot(document.getElementById('root')).render(<Docs />);
+const root = document.getElementById('root');
+const app = <Docs initialRoute={routeFromPath(location.pathname)} />;
+// Pages are pre-rendered at build time; hydrate them, or render fresh in dev.
+if (root.hasChildNodes()) hydrateRoot(root, app);
+else createRoot(root).render(app);
