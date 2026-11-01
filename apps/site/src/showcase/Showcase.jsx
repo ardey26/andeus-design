@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShowHero } from './hero';
 import { HardwareRoom } from './hardware';
+import { FloorPlan, Parts } from './floor';
 import { InvestRoom, StudioRoom, HomeRoom, InboxRoom } from './rooms-a';
 import { CalendarRoom, FilesRoom, AnalyticsRoom, HealthRoom } from './rooms-b';
 import { ShopRoom, SettingsRoom, WriterRoom } from './rooms-c';
@@ -220,54 +221,6 @@ function Hero() {
   return H ? <H go={go} count={ALL.length} rooms={ROOMS.length} /> : null;
 }
 
-function FloorPlan() {
-  return (
-    <section id="rooms" className="sc-wrap" style={{ paddingBottom: 96 }} data-screen-label="Floor plan">
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          justifyContent: 'space-between',
-          gap: 16,
-          marginBottom: 16,
-          flexWrap: 'wrap',
-        }}
-      >
-        <h2 style={{ font: 'var(--type-h2)', margin: 0 }}>Floor plan</h2>
-        <span style={{ color: 'var(--text-2)' }}></span>
-      </div>
-      <div className="sc-plan">
-        {ROOMS.map((r, i) => (
-          <button key={r.id} className="sc-tile" onClick={() => go(r.id)}>
-            <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              <span
-                style={{
-                  font: '600 13px/1 var(--font-sans)',
-                  color: 'var(--text-3)',
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                {nn(i)}
-              </span>
-              <Icon name={r.icon} size={16} />
-            </span>
-            <span style={{ font: 'var(--type-h3)' }}>{r.name}</span>
-            <span style={{ fontSize: 13, color: 'var(--text-2)' }}>{r.kind}</span>
-          </button>
-        ))}
-        <button className="sc-tile sc-tile-ink" onClick={() => go('parts')}>
-          <span style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <span style={{ font: '600 13px/1 var(--font-sans)', opacity: 0.6 }}>Exit</span>
-            <Icon name="grid" size={16} color="var(--text-on-ink)" />
-          </span>
-          <span style={{ font: 'var(--type-h3)' }}>Parts</span>
-          <span style={{ fontSize: 13, opacity: 0.7 }}>All {ALL.length}, in one place</span>
-        </button>
-      </div>
-    </section>
-  );
-}
-
 function Room({ r, i }) {
   const C = ROOM_COMPONENTS[r.C];
   const inner = C ? <C /> : null;
@@ -277,57 +230,6 @@ function Room({ r, i }) {
         <span style={{ fontVariantNumeric: 'tabular-nums' }}>{nn(i)}</span> {r.name}
       </div>
       <div className="sc-exhibit">{inner}</div>
-    </section>
-  );
-}
-
-function Parts() {
-  const used = (p) => ROOMS.map((r, i) => (r.parts.includes(p) ? i : -1)).filter((i) => i >= 0);
-  return (
-    <section
-      id="parts"
-      className="sc-wrap"
-      style={{ paddingTop: 96, paddingBottom: 96 }}
-      data-screen-label="Parts"
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          justifyContent: 'space-between',
-          gap: 16,
-          marginBottom: 24,
-          flexWrap: 'wrap',
-        }}
-      >
-        <h2 style={{ font: 'var(--type-h1)', letterSpacing: 'var(--tracking-display)', margin: 0 }}>
-          The parts
-        </h2>
-        <span style={{ color: 'var(--text-2)' }}>
-          {ALL.length} components. The numbers are the rooms each one appears in.
-        </span>
-      </div>
-      <div className="sc-parts">
-        {ALL.map((p) => {
-          const u = used(p);
-          return (
-            <div key={p} className="sc-partcard">
-              <span style={{ fontWeight: 600 }}>{p}</span>
-              <span style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                {u.length ? (
-                  u.map((i) => (
-                    <button key={i} className="sc-roomno" onClick={() => go(ROOMS[i].id)}>
-                      {nn(i)}
-                    </button>
-                  ))
-                ) : (
-                  <span style={{ fontSize: 12, color: 'var(--text-3)' }}>In the hero</span>
-                )}
-              </span>
-            </div>
-          );
-        })}
-      </div>
     </section>
   );
 }
@@ -376,7 +278,13 @@ function Kit() {
           </p>
         </div>
         <div
-          style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'flex-end', alignItems: 'center' }}
+          style={{
+            display: 'flex',
+            gap: 12,
+            flexWrap: 'wrap',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
         >
           <Button variant="primary" size="l" isDefault icon="download">
             Get the kit
@@ -413,11 +321,11 @@ function Showcase() {
     <>
       <MenuBar />
       <Hero />
-      <FloorPlan />
+      <FloorPlan rooms={ROOMS} total={ALL.length} go={go} nn={nn} />
       {ROOMS.map((r, i) => (
         <Room key={r.id} r={r} i={i} />
       ))}
-      <Parts />
+      <Parts rooms={ROOMS} all={ALL} go={go} nn={nn} />
       <Kit />
     </>
   );

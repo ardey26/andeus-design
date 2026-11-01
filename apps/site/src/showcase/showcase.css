@@ -25,45 +25,6 @@ a:hover {
 .sc-nav:hover {
   color: var(--accent);
 }
-.sc-plan {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--border-ink);
-  border-left: 1px solid var(--border-ink);
-}
-.sc-tile {
-  all: unset;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 16px;
-  min-height: 120px;
-  border-right: 1px solid var(--border-ink);
-  border-bottom: 1px solid var(--border-ink);
-  background: var(--surface-raised);
-  transition: background var(--dur-quick) var(--ease-detent);
-}
-.sc-tile:hover {
-  background: var(--surface-paper);
-}
-.sc-tile:active {
-  background: var(--platinum-100);
-}
-.sc-tile:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: -3px;
-}
-.sc-tile-ink {
-  background: var(--surface-ink);
-  color: var(--text-on-ink);
-}
-.sc-tile-ink:hover {
-  background: var(--platinum-800);
-}
 .sc-room {
   position: relative;
   overflow: hidden;
@@ -112,23 +73,6 @@ a:hover {
   border: 1px solid var(--border-ink);
   border-radius: 2px;
   background: var(--surface-raised);
-}
-.sc-parts {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--border-ink);
-  border-left: 1px solid var(--border-ink);
-}
-.sc-partcard {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px 16px;
-  border-right: 1px solid var(--border-ink);
-  border-bottom: 1px solid var(--border-ink);
-  background: var(--surface-raised);
-  min-height: 76px;
 }
 .sc-roomno {
   all: unset;
@@ -188,4 +132,85 @@ a:hover {
   .sc-mail {
     grid-template-columns: minmax(0, 1fr) !important;
   }
+}
+
+/* Floor plan: directory panel */
+.sc-dir-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 168px;
+  gap: 14px;
+}
+.sc-dir-keys {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+  padding-bottom: 4px;
+}
+.sc-dir-exit {
+  grid-column: span 2;
+}
+@media (max-width: 900px) {
+  .sc-dir-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sc-dir-grille {
+    display: none;
+  }
+  .sc-dir-keys {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  }
+}
+
+/* Parts: cabinet of live specimens */
+.sc-cabinet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+.sc-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 12px 14px;
+  border-radius: 14px;
+  background: var(--platinum-50);
+  box-shadow:
+    inset 0 -3px 0 rgba(27, 26, 24, 0.08),
+    0 0 0 1px var(--platinum-400);
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+.sc-tray {
+  height: 124px;
+  border-radius: 10px;
+  background: var(--platinum-200);
+  box-shadow:
+    inset 0 2px 6px rgba(27, 26, 24, 0.18),
+    inset 0 0 0 1px var(--platinum-300);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 8px;
+}
+.sc-led {
+  all: unset;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.sc-led:disabled {
+  cursor: default;
+}
+.sc-led:focus-visible {
+  outline: 2px solid var(--focus-ring);
+}
+.sc-cab-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0 4px;
 }
